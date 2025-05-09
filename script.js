@@ -241,72 +241,66 @@ function dropWord() {
   }
 
   const elements = document.querySelectorAll('.bouge');
-  let scrollBlocked = false;
-  let unlockTimeout = null;
-  let blockPosition = 1650;
-  let finalPosition = 2250; // La position où se bloque le scroll après vitesse rapide
-  let scrollToPosition = finalPosition;
+
+let scrollBlocked = false;
+let unlockTimeout = null;
+let blockPosition = 1650;
+let finalPosition = 2250;
+
+let lastWheelTime = performance.now();
+
+// Prépare les animations
+elements.forEach(el => {
+  const tx = (Math.random() - 0.5) * 500 + 'px';
+  const ty = (Math.random() - 0.5) * 500 + 'px';
+  const r = (Math.random() * 720 - 360) + 'deg';
+  el.style.setProperty('--tx', tx);
+  el.style.setProperty('--ty', ty);
+  el.style.setProperty('--r', r);
+});
+
+window.addEventListener('wheel', (e) => {
+  const y = window.scrollY;
   
-  let lastWheelTime = performance.now();
-  let lastDeltaY = 0;
-  
-  // Prépare les positions aléatoires pour l'animation
-  elements.forEach(el => {
-    const tx = (Math.random() - 0.5) * 500 + 'px';
-    const ty = (Math.random() - 0.5) * 500 + 'px';
-    const r = (Math.random() * 720 - 360) + 'deg';
-    el.style.setProperty('--tx', tx);
-    el.style.setProperty('--ty', ty);
-    el.style.setProperty('--r', r);
-  });
-  
-  window.addEventListener('wheel', (e) => {
-    const y = window.scrollY;
-  
-    // Calcule la "vitesse" à partir de deltaY et du temps entre les wheel events
+
+
+  // Empêche de scroller au-delà de la zone
+  if (y >= blockPosition && y < finalPosition) {
+    e.preventDefault(); // Stop le scroll immédiatement
+    window.scrollTo({ top: blockPosition }); // Fige à 1650
+    scrollBlocked = true;
+
+
+    // Calcule la vitesse avec deltaY
     const now = performance.now();
-    const timeDiff = (now - lastWheelTime) / 1000; // en secondes
     const delta = Math.abs(e.deltaY);
-    const speed = delta / timeDiff;
-  
+    const dt = (now - lastWheelTime) / 1000; // en secondes
     lastWheelTime = now;
-    lastDeltaY = delta;
-  
-    if (y >= blockPosition && !scrollBlocked) {
-      // Bloque immédiatement à la position initiale
+    const speed = delta / dt;
+
+    if (speed > 18) {
+      // Vitesse suffisante → envol et passage à 2000
+      elements.forEach(el => {
+        el.classList.remove('retombe');
+        el.classList.add('envole');
+      });
+
+      // Débloque le scroll, mais saute directement à 2000
+      document.body.style.overflow = 'auto';
+      scrollBlocked = false;
+
+      setTimeout(() => {
+        window.scrollTo({ top: finalPosition, behavior: 'smooth' });
+      }, 50);
+    } else {
+      // Vitesse insuffisante → retombée
+      elements.forEach(el => {
+        el.classList.remove('envole');
+        el.classList.add('retombe');
+      });
+
+      // Garde scroll bloqué à 1650
       scrollBlocked = true;
-      document.body.style.overflow = 'hidden';
-      window.scrollTo({ top: blockPosition });
-      e.preventDefault();
-      return;
     }
-  
-    if (scrollBlocked) {
-      if (speed > 20) {
-        // Scroll rapide → envol, déblocage et déplace à la position finale
-        elements.forEach(el => {
-          el.classList.remove('retombe');
-          el.classList.add('envole');
-        });
-  
-        document.body.style.overflow = 'auto';
-        scrollToPosition = finalPosition;  // Bloque ensuite à 2000
-  
-        clearTimeout(unlockTimeout);
-        unlockTimeout = setTimeout(() => {
-          scrollBlocked = false;
-          window.scrollTo({ top: scrollToPosition }); // Se bloque à la position finale
-        }, 300); // délai pour stabiliser après mouvement rapide
-      } else {
-        // Scroll trop lent → les lettres retombent et bloque à la position initiale
-        elements.forEach(el => {
-          el.classList.remove('envole');
-          el.classList.add('retombe');
-        });
-  
-        window.scrollTo({ top: blockPosition });
-        e.preventDefault();
-      }
-    }
-  }, { passive: false });
-  
+  }
+}, { passive: false });
