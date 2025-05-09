@@ -239,4 +239,74 @@ function dropWord() {
       falling.style.top = "0px";
     };
   }
+
+  const elements = document.querySelectorAll('.bouge');
+  let scrollBlocked = false;
+  let unlockTimeout = null;
+  let blockPosition = 1650;
+  let finalPosition = 2250; // La position où se bloque le scroll après vitesse rapide
+  let scrollToPosition = finalPosition;
+  
+  let lastWheelTime = performance.now();
+  let lastDeltaY = 0;
+  
+  // Prépare les positions aléatoires pour l'animation
+  elements.forEach(el => {
+    const tx = (Math.random() - 0.5) * 500 + 'px';
+    const ty = (Math.random() - 0.5) * 500 + 'px';
+    const r = (Math.random() * 720 - 360) + 'deg';
+    el.style.setProperty('--tx', tx);
+    el.style.setProperty('--ty', ty);
+    el.style.setProperty('--r', r);
+  });
+  
+  window.addEventListener('wheel', (e) => {
+    const y = window.scrollY;
+  
+    // Calcule la "vitesse" à partir de deltaY et du temps entre les wheel events
+    const now = performance.now();
+    const timeDiff = (now - lastWheelTime) / 1000; // en secondes
+    const delta = Math.abs(e.deltaY);
+    const speed = delta / timeDiff;
+  
+    lastWheelTime = now;
+    lastDeltaY = delta;
+  
+    if (y >= blockPosition && !scrollBlocked) {
+      // Bloque immédiatement à la position initiale
+      scrollBlocked = true;
+      document.body.style.overflow = 'hidden';
+      window.scrollTo({ top: blockPosition });
+      e.preventDefault();
+      return;
+    }
+  
+    if (scrollBlocked) {
+      if (speed > 20) {
+        // Scroll rapide → envol, déblocage et déplace à la position finale
+        elements.forEach(el => {
+          el.classList.remove('retombe');
+          el.classList.add('envole');
+        });
+  
+        document.body.style.overflow = 'auto';
+        scrollToPosition = finalPosition;  // Bloque ensuite à 2000
+  
+        clearTimeout(unlockTimeout);
+        unlockTimeout = setTimeout(() => {
+          scrollBlocked = false;
+          window.scrollTo({ top: scrollToPosition }); // Se bloque à la position finale
+        }, 300); // délai pour stabiliser après mouvement rapide
+      } else {
+        // Scroll trop lent → les lettres retombent et bloque à la position initiale
+        elements.forEach(el => {
+          el.classList.remove('envole');
+          el.classList.add('retombe');
+        });
+  
+        window.scrollTo({ top: blockPosition });
+        e.preventDefault();
+      }
+    }
+  }, { passive: false });
   
