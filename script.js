@@ -1,17 +1,17 @@
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed");
+// document.addEventListener('DOMContentLoaded', function() {
+//     console.log("DOM fully loaded and parsed");
     
-    window.scrollTo(0, 0);
-    document.body.style.overflowY = 'hidden';
+//     window.scrollTo(0, 0);
+//     document.body.style.overflowY = 'hidden';
 
-    /* while (document.documentElement.scrollTop > 100) {
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-        // window.scrollTo(0, 0);
-    } */
-});
+//     /* while (document.documentElement.scrollTop > 100) {
+//         document.documentElement.scrollTop = 0;
+//         document.body.scrollTop = 0; // For Safari
+//         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+//         // window.scrollTo(0, 0);
+//     } */
+// });
 
 function animationTexte(){
     
@@ -144,14 +144,15 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
                     }
             }
             
-            setTimeout(() => {
-                console.log("scrolling");
-                scrollToPosition();
-            }, 1500);
+            // setTimeout(() => {
+            //     console.log("scrolling");
+            //     scrollToPosition();
+            // }, 1500);
         }
 
     }, 30);
     
+
 
     
     
@@ -209,3 +210,33 @@ setTimeout(changeColor, 3000);
         
 //     }
 // });
+
+
+function dropWord() {
+    const falling = document.getElementById("falling-word");
+    const target = document.getElementById("target-word");
+  
+    // Affiche le mot tombant
+    falling.style.opacity = 1;
+  
+    // Anime la chute
+    falling.animate(
+      [
+        { top: "0px" },
+        { top: "100px" }
+      ],
+      {
+        duration: 500,
+        easing: "ease-in",
+        fill: "forwards"
+      }
+    ).onfinish = () => {
+      // Remplace le mot father par le want me
+      target.textContent = falling.textContent;
+  
+      // Réinitialise le mot want me
+      falling.style.opacity = 0;
+      falling.style.top = "0px";
+    };
+  }
+  
