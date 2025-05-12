@@ -225,6 +225,8 @@ function dropWord() {
     ).onfinish = () => {
       // Remplace le mot father par le want me
       target.textContent = falling.textContent;
+
+      document.body.style.backgroundColor = "rgb(255, 50, 1)";
   
       // Réinitialise le mot want me
       falling.style.opacity = 0;
