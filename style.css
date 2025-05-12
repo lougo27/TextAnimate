@@ -128,14 +128,14 @@ body {
 }
 
 .anim3 {
-    height: 80vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
 .anim4 {
-    height: 180vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
