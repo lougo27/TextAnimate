@@ -12,6 +12,16 @@
 //         // window.scrollTo(0, 0);
 //     } */
 // });
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+};
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  
+  window.scrollTo(0, 0);
+  
+  
 document.body.classList.add('noscroll');
 document.body.style.overflowY = 'hidden';
 
