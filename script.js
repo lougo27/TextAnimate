@@ -231,9 +231,7 @@ function changeColor() {
     let colorElements = document.querySelectorAll('.color');
     colorElements.forEach(element => {
         element.style.color = "rgb(255, 112, 0)";
-    });
-
-    // document.body.style.overflowY = 'scroll';
+    })
 }
 
 // PART 3 : particules optimisées
@@ -450,8 +448,8 @@ setTimeout(showWords, 500);
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = 1650;
-const finalPosition = 2200;
+const blockPosition = 1700;
+const finalPosition = 2350;
 
 let lastWheelTime = performance.now();
 let scrollLocked = true; // pour bloquer à blockPosition
