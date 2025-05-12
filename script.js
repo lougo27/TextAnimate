@@ -12,6 +12,7 @@
 //         // window.scrollTo(0, 0);
 //     } */
 // });
+document.body.classList.add('noscroll');
 
 function animationTexte(){
     
@@ -144,12 +145,14 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
                     }
             }
             
-            // setTimeout(() => {
-            //     console.log("scrolling");
-            //     scrollToPosition();
-            // }, 1500);
+            setTimeout(() => {
+                console.log("scrolling");
+                scrollToPosition();
+                setTimeout(changeColor, 2000);
+            }, 1500);
         }
-
+        
+        document.body.classList.remove('noscroll');
     }, 30);
     
 
@@ -174,6 +177,14 @@ const move = function(element){
 
                 chooseElement.style.left = x -150 + "px";
                 chooseElement.style.top = y -150 + "px";
+
+                setTimeout(() => {
+                    window.scrollTo({
+                      top: 1000,
+                      behavior: 'smooth' 
+                    });
+                  }, 3000);
+
             }
         })
     })
@@ -189,10 +200,10 @@ function changeColor() {
         element.style.color = "rgb(255, 112, 0)";
     });
 
-    document.body.style.overflowY = 'scroll';
+    // document.body.style.overflowY = 'scroll';
 }
 
-setTimeout(changeColor, 3000);
+
 
 // window.addEventListener('scroll', () => {
 //     if (window.scrollY >= 2150) {
