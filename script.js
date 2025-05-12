@@ -217,7 +217,6 @@ function changeColor() {
 }
 
 //PART 3 : particules avec tutoriel
-
 window.addEventListener('load', function(){
     const textInput = this.document.getElementById('textInput');
     const canvas = document.getElementById('canvas1');
@@ -416,6 +415,12 @@ setTimeout(showWords, 500);
       // Réinitialise le mot want me
       falling.style.opacity = 0;
       falling.style.top = "0px";
+      setTimeout(() => {
+        window.scrollTo({
+          top: 3000,
+          behavior: 'smooth' 
+        });
+      }, 3500);
     };
 }
 
@@ -423,7 +428,7 @@ setTimeout(showWords, 500);
 const elements = document.querySelectorAll('.bouge');
 
 const blockPosition = 1700;
-const finalPosition = 2300;
+const finalPosition = 2200;
 
 let lastWheelTime = performance.now();
 let scrollLocked = true; // pour bloquer à blockPosition
