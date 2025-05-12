@@ -448,8 +448,8 @@ setTimeout(showWords, 500);
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = 1700;
-const finalPosition = 2350;
+const blockPosition = 2000;
+const finalPosition = 2500;
 
 let lastWheelTime = performance.now();
 let scrollLocked = true; // pour bloquer à blockPosition
