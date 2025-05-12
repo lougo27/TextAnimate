@@ -448,7 +448,7 @@ setTimeout(showWords, 500);
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = 2500;
+const blockPosition = 2000;
 const finalPosition = 3000;
 
 let lastWheelTime = performance.now();
