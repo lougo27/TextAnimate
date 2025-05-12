@@ -218,8 +218,8 @@ function dropWord() {
         { top: "100px" }
       ],
       {
-        duration: 500,
-        easing: "ease-in",
+        duration: 400,
+        easing: "ease-in-out",
         fill: "forwards"
       }
     ).onfinish = () => {
@@ -242,7 +242,7 @@ let lastWheelTime = performance.now();
 let scrollLocked = true; // pour bloquer à blockPosition
 let finalLocked = false; // pour bloquer après finalPosition
 
-// Préparation des animations aléatoires
+// Préparation des animations aléatoires généré par chat GPT car je voyais pas trop comment faire manuellement
 elements.forEach(el => {
     const tx = (Math.random() - 0.5) * 500 + 'px';
     const ty = (Math.random() - 0.5) * 500 + 'px';
@@ -255,7 +255,7 @@ elements.forEach(el => {
 
 window.addEventListener('wheel', (e) => {
   const y = window.scrollY;
-
+//Calcul de la vitesse généré par IA car je ne trouvais pas le paramètre adéquat 
   const now = performance.now();
   const delta = Math.abs(e.deltaY);
   const dt = Math.max((now - lastWheelTime) / 1000, 0.01); // secondes
@@ -296,9 +296,22 @@ window.addEventListener('wheel', (e) => {
             el.classList.add('retombe');
             }, 400); // correspond à la durée de .envole-leger
         });
-  
+
+        const message = document.getElementById('message');
+
+        // Affiche le message (glisse depuis la droite)
+        setTimeout(() => {
+            message.classList.add('show');
+        }, 2000); // petit délai pour que la transition fonctionne
+
+        // Disparait en glissant vers la droite après 3 secondes
+        setTimeout(() => {
+            message.classList.remove('show');
+            message.classList.add('hide');
+        }, 5000);
+        
     }
-  }
+    }
 
   // Blocage après le saut à finalPosition
   if (finalLocked && y > finalPosition) {
