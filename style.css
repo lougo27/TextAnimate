@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* TECHNIQUE INTERNET POUR EMPECHER LA SELECTION DE TEXTE */
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
@@ -13,9 +14,7 @@
 div {
     overflow: hidden;
 }
-.noscroll {
-    overflow-y: hidden;
-}
+
 body {
     background-color: rgb(36, 0, 0);
     background-color: rgb(255, 248, 36);
@@ -48,14 +47,12 @@ body {
     text-shadow: var(--shadow-x, 0px) var(--shadow-y, 0px) 0px #FFAA00;
 }
 
-
 #anim1 {
     min-height: 100vh;
     max-height: 100vh;
     display: flex;
     flex-direction: column;
 }
-
 
 .minuscule{
     font-family: "dazzle-unicase", sans-serif;
@@ -110,7 +107,7 @@ body {
 .twotwo {
     display: flex;
     gap: 2rem;
-    justify-content: end;
+    justify-content: center;
 }
 
 .threetwo {

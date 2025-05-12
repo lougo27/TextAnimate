@@ -203,7 +203,7 @@ const move = function(element){
 
                 setTimeout(() => {
                     window.scrollTo({
-                      top: 1030,
+                      top: 1100,
                       behavior: 'smooth' 
                     });
 
