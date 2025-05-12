@@ -157,12 +157,6 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
     
     
 });
-    
-
-
-
-
-
 
 //PARTIE 2 : I know what I want to do
 let chooseMovibleElement;
@@ -211,15 +205,13 @@ setTimeout(changeColor, 3000);
 //     }
 // });
 
-
+//FATHER PARTIE
 function dropWord() {
     const falling = document.getElementById("falling-word");
     const target = document.getElementById("target-word");
   
-    // Affiche le mot tombant
     falling.style.opacity = 1;
   
-    // Anime la chute
     falling.animate(
       [
         { top: "0px" },
@@ -238,69 +230,79 @@ function dropWord() {
       falling.style.opacity = 0;
       falling.style.top = "0px";
     };
-  }
+}
 
-  const elements = document.querySelectorAll('.bouge');
+//LETRES QUI BOUGENT I M GOING TO DO IT
+const elements = document.querySelectorAll('.bouge');
 
-let scrollBlocked = false;
-let unlockTimeout = null;
-let blockPosition = 1650;
-let finalPosition = 2250;
+const blockPosition = 1650;
+const finalPosition = 2250;
 
 let lastWheelTime = performance.now();
+let scrollLocked = true; // pour bloquer à blockPosition
+let finalLocked = false; // pour bloquer après finalPosition
 
-// Prépare les animations
+// Préparation des animations aléatoires
 elements.forEach(el => {
-  const tx = (Math.random() - 0.5) * 500 + 'px';
-  const ty = (Math.random() - 0.5) * 500 + 'px';
-  const r = (Math.random() * 720 - 360) + 'deg';
-  el.style.setProperty('--tx', tx);
-  el.style.setProperty('--ty', ty);
-  el.style.setProperty('--r', r);
+    const tx = (Math.random() - 0.5) * 500 + 'px';
+    const ty = (Math.random() - 0.5) * 500 + 'px';
+    const r = (Math.random() * 720 - 360) + 'deg';
+    el.style.setProperty('--tx', tx);
+    el.style.setProperty('--ty', ty);
+    el.style.setProperty('--r', r);
 });
+  
 
 window.addEventListener('wheel', (e) => {
   const y = window.scrollY;
-  
 
+  const now = performance.now();
+  const delta = Math.abs(e.deltaY);
+  const dt = Math.max((now - lastWheelTime) / 1000, 0.01); // secondes
+  const speed = delta / dt;
+  lastWheelTime = now;
 
-  // Empêche de scroller au-delà de la zone
-  if (y >= blockPosition && y < finalPosition) {
-    e.preventDefault(); // Stop le scroll immédiatement
-    window.scrollTo({ top: blockPosition }); // Fige à 1650
-    scrollBlocked = true;
+  console.log("Wheel speed:", speed.toFixed(0), "px/s");
 
+  // Blocage entre blockPosition et finalPosition
+  if (y >= blockPosition && y < finalPosition && scrollLocked) {
+    e.preventDefault();
+    window.scrollTo({ top: blockPosition });
 
-    // Calcule la vitesse avec deltaY
-    const now = performance.now();
-    const delta = Math.abs(e.deltaY);
-    const dt = (now - lastWheelTime) / 1000; // en secondes
-    lastWheelTime = now;
-    const speed = delta / dt;
+    if (speed >= 10500) {
+      // Vitesse suffisante : envole, saut à finalPosition, nouveau blocage
+      scrollLocked = false;
+      finalLocked = true;
 
-    if (speed > 18) {
-      // Vitesse suffisante → envol et passage à 2000
       elements.forEach(el => {
         el.classList.remove('retombe');
         el.classList.add('envole');
       });
 
-      // Débloque le scroll, mais saute directement à 2000
       document.body.style.overflow = 'auto';
-      scrollBlocked = false;
+      window.scrollTo({ top: finalPosition, behavior: 'smooth' });
 
-      setTimeout(() => {
-        window.scrollTo({ top: finalPosition, behavior: 'smooth' });
-      }, 50);
+      setTimeout(dropWord, 2000);
     } else {
-      // Vitesse insuffisante → retombée
-      elements.forEach(el => {
-        el.classList.remove('envole');
-        el.classList.add('retombe');
-      });
-
-      // Garde scroll bloqué à 1650
-      scrollBlocked = true;
+      // Vitesse faible : envole léger puis retombe
+      // Scroll lent : envol partiel puis retombe
+        elements.forEach(el => {
+            el.classList.remove('envole', 'retombe', 'envole-leger');
+            void el.offsetWidth; // force le reflow
+            el.classList.add('envole-leger');
+        
+            setTimeout(() => {
+            el.classList.remove('envole-leger');
+            el.classList.add('retombe');
+            }, 400); // correspond à la durée de .envole-leger
+        });
+  
     }
   }
-}, { passive: false });
+
+  // Blocage après le saut à finalPosition
+  if (finalLocked && y > finalPosition) {
+    e.preventDefault();
+    window.scrollTo({ top: finalPosition });
+  }
+}, { passive: false }); // PASSIVE FALSE pour bloquer le scroll ET la molette ET le pavé tactile
