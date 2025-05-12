@@ -272,6 +272,21 @@ animation: shake 0.2s infinite;
 #message.hide {
     right: -300px; /* glisse hors de l'écran */
 }
+
+.mot {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    margin: 0 10px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Classe pour rendre visible le mot */
+.mot.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
   
   
 

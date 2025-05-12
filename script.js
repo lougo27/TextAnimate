@@ -227,6 +227,24 @@ function dropWord() {
       target.textContent = falling.textContent;
 
       document.body.style.backgroundColor = "rgb(255, 50, 1)";
+
+      // Fonction pour afficher chaque mot un par un
+        function showWords() {
+            const mots = document.querySelectorAll('.mot');
+            let delay = 0; // Délai initial pour le premier mot
+
+            mots.forEach((mot, index) => {
+                setTimeout(() => {
+                    mot.classList.add('visible'); // Ajoute la classe 'visible' pour afficher le mot
+                }, delay);
+
+                delay += 400; // Ajoute un délai de 1 seconde entre chaque mot
+            });
+        }
+
+// Appeler la fonction pour afficher les mots après 1 seconde
+setTimeout(showWords, 500);
+
   
       // Réinitialise le mot want me
       falling.style.opacity = 0;
