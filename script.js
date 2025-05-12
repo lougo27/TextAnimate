@@ -521,6 +521,9 @@ changer.style.transition = "font-size 0.3s ease-in-out";
 changer.onmousemove = function()
 {
     this.style.fontSize = '5rem';
+    this.style.display = 'flex';
+    this.style.justifyContent = 'center';
+    this.style.alignItems = 'center';
 }
 
 changer.onmouseleave = function()
