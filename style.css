@@ -132,6 +132,9 @@ body {
 
 .anim3 {
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .anim4 {
@@ -139,7 +142,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    
     
 }
 
@@ -261,7 +264,7 @@ animation: shake 0.2s infinite;
     transition: transform 0.5s ease-in;
 }
 
-#message1, #message2 {
+#message, #message1, #message2 {
     position: fixed;
     top: 20px;
     right: -300px; /* hors de l'écran */
@@ -271,11 +274,11 @@ animation: shake 0.2s infinite;
     z-index: 9999;
 }
 
-#message1.show, #message2.show{
+#message.show, #message1.show, #message2.show {
     right: 20px; /* glisse vers l'écran */
 }
 
-#message.hide, #message2.hide {
+#message.hide, #message1.hide, #message2.hide {
     right: -300px; /* glisse hors de l'écran */
 }
 

@@ -155,7 +155,7 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
                 // Affiche le message (glisse depuis la droite)
                 setTimeout(() => {
                     message1.classList.add('show');
-                }, 2000); // petit délai pour que la transition fonctionne
+                }, 1000); // petit délai pour que la transition fonctionne
 
                 // Disparait en glissant vers la droite après 3 secondes
                 setTimeout(() => {
@@ -193,10 +193,20 @@ const move = function(element){
 
                 setTimeout(() => {
                     window.scrollTo({
-                      top: 1090,
+                      top: 1030,
                       behavior: 'smooth' 
                     });
-                  }, 3500);
+
+                    const message = document.getElementById('message');
+                    setTimeout(() => {
+                        message.classList.add('show');
+                    }, 2000);
+                    setTimeout(() => {
+                        message.classList.remove('show');
+                        message.classList.add('hide');
+                    }, 5500);
+
+                    }, 3500);
 
             }
         })
@@ -216,168 +226,171 @@ function changeColor() {
     // document.body.style.overflowY = 'scroll';
 }
 
-//PART 3 : particules avec tutoriel
-window.addEventListener('load', function(){
-    const textInput = this.document.getElementById('textInput');
+// PART 3 : particules optimisées
+window.addEventListener('load', function () {
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
-    canvas.width = this.window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    let particlesEnabled = true;
 
-class Particle{
-    constructor(effect, x, y, color){
-        this.effect = effect;
-        this.x = Math.random() * this.effect.canvasWidth;
-        this.y = this.effect.canvasHeight;
-        this.color = color;
-        this.originX = x;
-        this.originY = y;
-        this.size = this.effect.gap;
-        this.dx = 0;
-        this.dy = 0;
-        this.vx = 0;
-        this.vy = 0;
-        this.force = 0;
-        this.angle = 0;
-        this.distance = 0;
-        this.friction = Math.random() * 0.6 + 0.15;
-        this.ease = Math.random() * 0.2 + 0.005;
-    }
-
-    draw(){
-        this.effect.context.fillStyle = this.color;
-        this.effect.context.fillRect(this.x, this.y, this.size, this.size);
-    }
-    update(){
-        this.dx = this.effect.mouse.x - this.x;
-        this.dy = this.effect.mouse.y - this.y;
-        this.distance = this.dx * this.dx + this.dy * this.dy;
-        this.force = -this.effect.mouse.radius / this.distance;
-
-        if (this.distance < this.effect.mouse.radius){
-            this.angle = Math.atan2(this.dy, this.dx);
-            this.vx += this.force * Math.cos(this.angle);
-            this.vy += this.force * Math.sin(this.angle);
+    class Particle {
+        constructor(effect, x, y, color) {
+            this.effect = effect;
+            this.x = Math.random() * this.effect.canvasWidth;
+            this.y = this.effect.canvasHeight;
+            this.color = color;
+            this.originX = x;
+            this.originY = y;
+            this.size = this.effect.gap;
+            this.dx = 0;
+            this.dy = 0;
+            this.vx = 0;
+            this.vy = 0;
+            this.force = 0;
+            this.angle = 0;
+            this.distance = 0;
+            this.friction = Math.random() * 0.6 + 0.15;
+            this.ease = Math.random() * 0.2 + 0.005;
         }
 
-        this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease;
-        this.y += (this.vy *= this.friction) + (this.originY - this.y) * this.ease;
-    }
-}
-
-class Effect{
-    constructor(context, canvasWidth, canvasHeight){
-        this.context = context;
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
-        this.textX = canvasWidth / 2;
-        this.textY = canvasHeight / 2;
-        this.fontSize = 160;
-        this.lineHeight = this.fontSize * 0.8;
-        this.maxTextWidth = this.canvasWidth * 0.8;
-        this.textInput = document.getElementById('textInput');
-        this.verticalOffset = 0;
-        //texte en particules
-        this.particles = [];
-        this.gap = 2;
-        this.mouse = {
-            radius : 30000,
-            x : 0,
-            y : 0,
+        draw() {
+            this.effect.context.fillStyle = this.color;
+            this.effect.context.fillRect(this.x, this.y, this.size, this.size);
         }
-        window.addEventListener('mousemove', (e) => {
-            this.mouse.x = e.x;
-            this.mouse.y = e.y;
-        });
-        
 
-    }
-    wrapText(text){
-        this.context.fillStyle = 'white'; 
-        this.context.strokeStyle = 'white'; 
-        this.context.textAlign = 'center';
-        this.context.textBaseline = 'middle';
-        this.context.lineWidth = 3;
-        this.context.font = this.fontSize + 'px dazzle-unicase';
-    
-        let linesArray = [];
-        let words = text.split(' '); 
-        let lineCounter = 0;
-        let line = '';
-    
-        for (let i = 0; i < words.length; i++ ){
-            let testLine = line + (line ? ' ' : '') + words[i]; 
-            if (this.context.measureText(testLine).width > this.maxTextWidth){
-                linesArray[lineCounter] = line;
-                line = words[i];
-                lineCounter++;
-            } else {
-                line = testLine;
+        update() {
+            this.dx = this.effect.mouse.x - this.x;
+            this.dy = this.effect.mouse.y - this.y;
+            this.distance = this.dx * this.dx + this.dy * this.dy;
+            this.force = -this.effect.mouse.radius / this.distance;
+
+            if (this.distance < this.effect.mouse.radius) {
+                this.angle = Math.atan2(this.dy, this.dx);
+                this.vx += this.force * Math.cos(this.angle);
+                this.vy += this.force * Math.sin(this.angle);
             }
+
+            this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease;
+            this.y += (this.vy *= this.friction) + (this.originY - this.y) * this.ease;
         }
-        linesArray[lineCounter] = line; 
-        this.context.textBaseline = 'top'; 
-
-        let textHeight = this.lineHeight * linesArray.length;
-        this.textY = this.canvasHeight / 2 - textHeight / 2 + this.verticalOffset;
-
-        linesArray.forEach((el, index) => {
-            this.context.fillText(el, this.textX, this.textY + (index * this.lineHeight));
-            this.context.strokeText(el, this.textX, this.textY + (index * this.lineHeight));
-        });
-    
-        this.convertToParticles();
     }
-    
-    convertToParticles(){
-        this.particles = [];
-        const pixels = this.context.getImageData(0, 0, this.canvasWidth, this.canvasHeight).data;
-        this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-        for (let y = 0; y < this.canvasHeight; y+=this.gap){
-            for (let x = 0; x < this.canvasWidth; x+= this.gap){
-                const index = (y * this.canvasWidth + x) * 4;
-                const alpha = pixels[index + 3];
-                if (alpha > 0){
-                    const red = pixels[index];
-                    const green = pixels[index + 1];
-                    const blue = pixels[index + 2];
-                    const color = 'rgb(' + red + ',' + green + ',' + blue + ')';
-                    this.particles.push(new Particle(this, x, y, color));
-                 }
+
+    class Effect {
+        constructor(context, canvasWidth, canvasHeight) {
+            this.context = context;
+            this.canvasWidth = canvasWidth;
+            this.canvasHeight = canvasHeight;
+            this.textX = canvasWidth / 2;
+            this.textY = canvasHeight / 2;
+            this.fontSize = 160;
+            this.lineHeight = this.fontSize * 0.8;
+            this.maxTextWidth = canvasWidth * 0.8;
+            this.particles = [];
+            this.gap = 2; // plus grand = moins de particules = meilleure perf
+            this.mouse = {
+                radius: 30000,
+                x: 0,
+                y: 0,
+            };
+
+            window.addEventListener('mousemove', (e) => {
+                this.mouse.x = e.x;
+                this.mouse.y = e.y;
+            });
+        }
+
+        wrapText(text) {
+            this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+            this.context.fillStyle = 'white';
+            this.context.strokeStyle = 'white';
+            this.context.textAlign = 'center';
+            this.context.textBaseline = 'middle';
+            this.context.lineWidth = 3;
+            this.context.font = this.fontSize + 'px dazzle-unicase';
+
+            const words = text.split(' ');
+            const lines = [];
+            let line = '';
+
+            for (let word of words) {
+                let testLine = line + (line ? ' ' : '') + word;
+                if (this.context.measureText(testLine).width > this.maxTextWidth) {
+                    lines.push(line);
+                    line = word;
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line);
+
+            const textHeight = this.lineHeight * lines.length;
+            this.textY = this.canvasHeight / 2 - textHeight / 2;
+
+            lines.forEach((el, index) => {
+                const y = this.textY + (index * this.lineHeight);
+                this.context.fillText(el, this.textX, y);
+                this.context.strokeText(el, this.textX, y);
+            });
+
+            this.convertToParticles();
+        }
+
+        convertToParticles() {
+            const pixels = this.context.getImageData(0, 0, this.canvasWidth, this.canvasHeight).data;
+            this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+            this.particles = [];
+
+            for (let y = 0; y < this.canvasHeight; y += this.gap) {
+                for (let x = 0; x < this.canvasWidth; x += this.gap) {
+                    const index = (y * this.canvasWidth + x) * 4;
+                    const alpha = pixels[index + 3];
+                    if (alpha > 0) {
+                        const color = `rgb(${pixels[index]}, ${pixels[index + 1]}, ${pixels[index + 2]})`;
+                        this.particles.push(new Particle(this, x, y, color));
+                    }
+                }
             }
         }
 
+        render() {
+            this.particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+        }
     }
-    render(){
-        this.particles.forEach(particle => {
-            particle.update();
-            particle.draw();
-        });
 
+    const effect = new Effect(ctx, canvas.width, canvas.height);
+    // effect.wrapText('For the first time');
+    document.fonts.load('160px dazzle-unicase').then(() => {
+        effect.wrapText('For the first time');
+    });
+    function animate() {
+        if (particlesEnabled) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            effect.render();
+        }
+        requestAnimationFrame(animate);
     }
-}
 
-const effect = new Effect(ctx, canvas.width, canvas.height);
-effect.wrapText('For the first time');
-effect.render();
+    animate();
 
-function animate(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    effect.render();
-    requestAnimationFrame(animate);
-}
-
-animate();
-
+    // Interface pour activer/désactiver les particules depuis d'autres scripts
+    window.setParticlesEnabled = function (state) {
+        particlesEnabled = state;
+    }
 });
+
 
 
 //FATHER PARTIE
 function dropWord() {
     const falling = document.getElementById("falling-word");
     const target = document.getElementById("target-word");
-  
+    setParticlesEnabled(false); // pause les particules
+    setTimeout(() => setParticlesEnabled(true), 10000); // les relance après 4s
     falling.style.opacity = 1;
   
     falling.animate(
@@ -427,7 +440,7 @@ setTimeout(showWords, 500);
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = 1700;
+const blockPosition = 1650;
 const finalPosition = 2200;
 
 let lastWheelTime = performance.now();
@@ -457,59 +470,61 @@ window.addEventListener('wheel', (e) => {
   console.log("Wheel speed:", speed.toFixed(0), "px/s");
 
   // Blocage entre blockPosition et finalPosition
-  if (y >= blockPosition && y < finalPosition && scrollLocked) {
+if (y >= blockPosition && y < finalPosition && scrollLocked) {
     e.preventDefault();
     window.scrollTo({ top: blockPosition });
+    //LES PARTICULES FONT TOUT BEUGER
+    setParticlesEnabled(false); // pause les particules
+    setTimeout(() => setParticlesEnabled(true), 10000); // les relance après 4s
+        if (speed >= 10500) {
+        // Vitesse suffisante : envole, saut à finalPosition, nouveau blocage
+        scrollLocked = false;
+        finalLocked = true;
 
-    if (speed >= 10500) {
-      // Vitesse suffisante : envole, saut à finalPosition, nouveau blocage
-      scrollLocked = false;
-      finalLocked = true;
-
-      elements.forEach(el => {
-        el.classList.remove('retombe');
-        el.classList.add('envole');
-      });
-
-      document.body.style.overflow = 'auto';
-      window.scrollTo({ top: finalPosition, behavior: 'smooth' });
-
-      setTimeout(dropWord, 2000);
-    } else {
-      // Vitesse faible : envole léger puis retombe
-      // Scroll lent : envol partiel puis retombe
         elements.forEach(el => {
-            el.classList.remove('envole', 'retombe', 'envole-leger');
-            void el.offsetWidth; // force le reflow
-            el.classList.add('envole-leger');
-        
-            setTimeout(() => {
-            el.classList.remove('envole-leger');
-            el.classList.add('retombe');
-            }, 400); // correspond à la durée de .envole-leger
+            el.classList.remove('retombe');
+            el.classList.add('envole');
         });
 
-        //MESSAGE SCROLL PLUS FORT
-        const message2 = document.getElementById('message2');
+        document.body.style.overflow = 'auto';
+        window.scrollTo({ top: finalPosition, behavior: 'smooth' });
 
-        // Affiche le message (glisse depuis la droite)
-        setTimeout(() => {
-            message2.classList.add('show');
-        }, 2000); // petit délai pour que la transition fonctionne
+        setTimeout(dropWord, 2000);
+        } else {
+        // Vitesse faible : envole léger puis retombe
+        // Scroll lent : envol partiel puis retombe
+            elements.forEach(el => {
+                el.classList.remove('envole', 'retombe', 'envole-leger');
+                void el.offsetWidth; // force le reflow
+                el.classList.add('envole-leger');
+            
+                setTimeout(() => {
+                el.classList.remove('envole-leger');
+                el.classList.add('retombe');
+                }, 400); // correspond à la durée de .envole-leger
+            });
 
-        // Disparait en glissant vers la droite après 3 secondes
-        setTimeout(() => {
-            message2.classList.remove('show');
-            message2.classList.add('hide');
-        }, 5000);
-        
-    }
+            //MESSAGE SCROLL PLUS FORT
+            const message2 = document.getElementById('message2');
+
+            // Affiche le message (glisse depuis la droite)
+            setTimeout(() => {
+                message2.classList.add('show');
+            }, 2000); // petit délai pour que la transition fonctionne
+
+            // Disparait en glissant vers la droite après 3 secondes
+            setTimeout(() => {
+                message2.classList.remove('show');
+                message2.classList.add('hide');
+            }, 5000);
+            
+        }
     }
   // Blocage après le saut à finalPosition
   if (finalLocked && y > finalPosition) {
     e.preventDefault();
     window.scrollTo({ top: finalPosition });
-  }
+}
 }, { passive: false }); // PASSIVE FALSE pour bloquer le scroll ET la molette ET le pavé tactile
 
 // Dernière Partie : Grossissement de texte
