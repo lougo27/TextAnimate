@@ -10,6 +10,9 @@
     cursor: none;
     scroll-behavior: smooth;
 }
+div {
+    overflow: hidden;
+}
 .noscroll {
     overflow-y: hidden;
 }
@@ -132,7 +135,7 @@ body {
 }
 
 .anim4 {
-    height: 150vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
