@@ -449,7 +449,7 @@ setTimeout(showWords, 500);
 const elements = document.querySelectorAll('.bouge');
 
 const blockPosition = 1000;
-const finalPosition = 2500;
+const finalPosition = 2000;
 
 let lastWheelTime = performance.now();
 let scrollLocked = true; // pour bloquer à blockPosition
