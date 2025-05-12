@@ -13,6 +13,7 @@
 //     } */
 // });
 document.body.classList.add('noscroll');
+document.body.style.overflowY = 'hidden';
 
 function animationTexte(){
     
@@ -192,7 +193,7 @@ const move = function(element){
 
                 setTimeout(() => {
                     window.scrollTo({
-                      top: 1000,
+                      top: 1090,
                       behavior: 'smooth' 
                     });
                   }, 3500);
@@ -215,7 +216,7 @@ function changeColor() {
     // document.body.style.overflowY = 'scroll';
 }
 
-//PART 3 : particules
+//PART 3 : particules avec tutoriel
 
 window.addEventListener('load', function(){
     const textInput = this.document.getElementById('textInput');
@@ -294,38 +295,42 @@ class Effect{
 
     }
     wrapText(text){
-        //canvas settings
-        //const gradient = this.context.createlinearGradient(0, 0, this.canvasWidth, this.canvasHeight); 
-        // gradient.addColorStop(0.3, 'red'); 
-        // gradient.addColorStop(0.5, 'orange');
-        // gradient.addColorStop(0.7, 'yellow');
-        //this.context.fillStyle = gradient;
+        this.context.fillStyle = 'white'; 
+        this.context.strokeStyle = 'white'; 
         this.context.textAlign = 'center';
         this.context.textBaseline = 'middle';
         this.context.lineWidth = 3;
         this.context.font = this.fontSize + 'px dazzle-unicase';
+    
         let linesArray = [];
-        let words = text.split('');
+        let words = text.split(' '); 
         let lineCounter = 0;
         let line = '';
+    
         for (let i = 0; i < words.length; i++ ){
-            let testLine = line + words[i] + '';
+            let testLine = line + (line ? ' ' : '') + words[i]; 
             if (this.context.measureText(testLine).width > this.maxTextWidth){
-                line = words[i] + '';
+                linesArray[lineCounter] = line;
+                line = words[i];
                 lineCounter++;
             } else {
-                line = testLine
-            } 
-            linesArray[lineCounter] = line;
+                line = testLine;
+            }
         }
-        let textHeight = this.lineHeight * lineCounter;
+        linesArray[lineCounter] = line; 
+        this.context.textBaseline = 'top'; 
+
+        let textHeight = this.lineHeight * linesArray.length;
         this.textY = this.canvasHeight / 2 - textHeight / 2 + this.verticalOffset;
+
         linesArray.forEach((el, index) => {
             this.context.fillText(el, this.textX, this.textY + (index * this.lineHeight));
             this.context.strokeText(el, this.textX, this.textY + (index * this.lineHeight));
         });
+    
         this.convertToParticles();
     }
+    
     convertToParticles(){
         this.particles = [];
         const pixels = this.context.getImageData(0, 0, this.canvasWidth, this.canvasHeight).data;
