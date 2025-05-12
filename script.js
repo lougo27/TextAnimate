@@ -135,12 +135,12 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
         if (radius >= 10000) {
             clearInterval(animateGradient);
             let position = 0; // Position initiale
-            let maxPosition = 500; // Position maximale
+            let maxPosition = 450; // Position maximale
             
             function scrollToPosition() {
                 window.scrollTo(0, position);
                     if (position < maxPosition) {
-                        position += 10; 
+                        position += 80; 
                         requestAnimationFrame(scrollToPosition); 
                     }
             }
@@ -148,11 +148,23 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
             setTimeout(() => {
                 console.log("scrolling");
                 scrollToPosition();
-                setTimeout(changeColor, 2000);
+                setTimeout(changeColor, 1000);
+                const message1 = document.getElementById('message1');
+
+                // Affiche le message (glisse depuis la droite)
+                setTimeout(() => {
+                    message1.classList.add('show');
+                }, 2000); // petit délai pour que la transition fonctionne
+
+                // Disparait en glissant vers la droite après 3 secondes
+                setTimeout(() => {
+                    message1.classList.remove('show');
+                    message1.classList.add('hide');
+                }, 5500);
+
             }, 1500);
         }
         
-        document.body.classList.remove('noscroll');
     }, 30);
     
 
@@ -183,7 +195,7 @@ const move = function(element){
                       top: 1000,
                       behavior: 'smooth' 
                     });
-                  }, 3000);
+                  }, 3500);
 
             }
         })
@@ -202,19 +214,6 @@ function changeColor() {
 
     // document.body.style.overflowY = 'scroll';
 }
-
-
-
-// window.addEventListener('scroll', () => {
-//     if (window.scrollY >= 2150) {
-//         window.scrollTo(0, 2150);
-
-//         let fallingElements = document.querySelectorAll('.tombe');
-//         let fatherElement = document.querySelector('.father');
-
-        
-//     }
-// });
 
 //FATHER PARTIE
 function dropWord() {
@@ -255,8 +254,6 @@ function dropWord() {
 
 // Appeler la fonction pour afficher les mots après 1 seconde
 setTimeout(showWords, 500);
-
-  
       // Réinitialise le mot want me
       falling.style.opacity = 0;
       falling.style.top = "0px";
@@ -328,22 +325,22 @@ window.addEventListener('wheel', (e) => {
             }, 400); // correspond à la durée de .envole-leger
         });
 
-        const message = document.getElementById('message');
+        //MESSAGE SCROLL PLUS FORT
+        const message2 = document.getElementById('message2');
 
         // Affiche le message (glisse depuis la droite)
         setTimeout(() => {
-            message.classList.add('show');
+            message2.classList.add('show');
         }, 2000); // petit délai pour que la transition fonctionne
 
         // Disparait en glissant vers la droite après 3 secondes
         setTimeout(() => {
-            message.classList.remove('show');
-            message.classList.add('hide');
+            message2.classList.remove('show');
+            message2.classList.add('hide');
         }, 5000);
         
     }
     }
-
   // Blocage après le saut à finalPosition
   if (finalLocked && y > finalPosition) {
     e.preventDefault();
