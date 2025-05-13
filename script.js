@@ -146,7 +146,10 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
         if (radius >= 10000) {
             clearInterval(animateGradient);
             let position = 0; // Position initiale
-            let maxPosition = window.innerHeight; // Position maximale
+            // let maxPosition = window.innerHeight; // Position maximale
+            const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+            const maxPosition = window.innerHeight - remInPx;
+
             
             function scrollToPosition() {
                 window.scrollTo(0, position);

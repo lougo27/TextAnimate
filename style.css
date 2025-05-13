@@ -130,7 +130,7 @@ body {
 }
 
 .anim2 {
-    height: 100vh;
+    height: 110vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -138,7 +138,7 @@ body {
 }
 
 .anim3 {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center;
