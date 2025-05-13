@@ -1,18 +1,4 @@
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     console.log("DOM fully loaded and parsed");
-    
-//     window.scrollTo(0, 0);
-//     document.body.style.overflowY = 'hidden';
-
-//     /* while (document.documentElement.scrollTop > 100) {
-//         document.documentElement.scrollTop = 0;
-//         document.body.scrollTop = 0; // For Safari
-//         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-//         // window.scrollTo(0, 0);
-//     } */
-// });
-
+//Pronblème vh sur microsoft edge et safari c'est différent Chat GpT m'a dit de faire ça
 function setViewportHeightVar() {
     const vh = window.innerHeight * 0.01; // 1vh en pixels
     document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -22,6 +8,7 @@ function setViewportHeightVar() {
   window.addEventListener('resize', setViewportHeightVar); // Met à jour à chaque resize
   
 
+//Réactualisation de la position du scroll
 window.onbeforeunload = function () {
     window.scrollTo(0, 0);
 };
@@ -30,11 +17,8 @@ if ('scrollRestoration' in history) {
   }
   
   window.scrollTo(0, 0);
-  
-  
-document.body.classList.add('noscroll');
-document.body.style.overflowY = 'hidden';
 
+//PARTIE 1 : For the first time in my whole life
 function animationTexte(){
     
     let principalDiv = document.createElement("div");
@@ -156,7 +140,7 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
         if (radius >= 10000) {
             clearInterval(animateGradient);
             let position = 0; // Position initiale
-            let maxPosition = window.innerHeight; // Position maximale
+            let maxPosition = window.innerHeight/1.5; // Position maximale
             // const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
             // const maxPosition = window.innerHeight - remInPx;
 
