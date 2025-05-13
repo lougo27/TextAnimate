@@ -12,6 +12,16 @@
 //         // window.scrollTo(0, 0);
 //     } */
 // });
+
+function setViewportHeightVar() {
+    const vh = window.innerHeight * 0.01; // 1vh en pixels
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  
+  setViewportHeightVar(); // Exécute au chargement
+  window.addEventListener('resize', setViewportHeightVar); // Met à jour à chaque resize
+  
+
 window.onbeforeunload = function () {
     window.scrollTo(0, 0);
 };

@@ -38,7 +38,7 @@ body {
 #eclairage {
     position: fixed;
     width: 100vw;
-    height: 100vh;
+    height: calc(var(--vh) * 100); /* remplace 100vh */;
     pointer-events: none;
     background-image: radial-gradient(circle var(--r, 40vw) at var(--x, 50%) var(--y, 50%), #fff0 var(--stop1, 0%), #240000 40%)
   }
@@ -48,8 +48,8 @@ body {
 }
 
 #anim1 {
-    min-height: 100vh;
-    max-height: 100vh;
+    min-height: calc(var(--vh) * 100); /* remplace 100vh */;
+    max-height: calc(var(--vh) * 100); /* remplace 100vh */;
     display: flex;
     flex-direction: column;
 }
@@ -122,7 +122,7 @@ body {
 }
 
 .anim1 {
-    height: 100vh;
+    height: calc(var(--vh) * 100); /* remplace 100vh */;
     display: flex;
     justify-content: center;
     
@@ -130,7 +130,7 @@ body {
 }
 
 .anim2 {
-    height: 100vh;
+    height: calc(var(--vh) * 100); /* remplace 100vh */;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -138,7 +138,7 @@ body {
 }
 
 .anim3 {
-    height: 100vh;
+    height: calc(var(--vh) * 100); /* remplace 100vh */;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -152,7 +152,7 @@ canvas {
     align-items: center;
 }
 .anim4 {
-    height: 100vh;
+    height: calc(var(--vh) * 100); /* remplace 100vh */;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -161,7 +161,7 @@ canvas {
 }
 
 .anim5 {
-    height: 70vh;
+    height: calc(var(--vh) * 70); /* 70vh fiable */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -169,14 +169,14 @@ canvas {
 }
 
 .anim6 {
-    height: 30vh;
+    height: calc(var(--vh) * 30); /* 30vh fiable */
     display: flex;
     justify-content: center;
     gap: 1rem;
 }
 
 .anim7 {
-    height: 100vh;
+    height: calc(var(--vh) * 100); /* remplace 100vh */;
     display: flex;
     flex-direction: column;
     align-items: center;
