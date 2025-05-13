@@ -140,11 +140,8 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
         if (radius >= 10000) {
             clearInterval(animateGradient);
             let position = 0; // Position initiale
-            let maxPosition = window.innerHeight/1; // Position maximale
-            // const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-            // const maxPosition = window.innerHeight - remInPx;
+            let maxPosition = window.innerHeight-20; // Position maximale
 
-            
             function scrollToPosition() {
                 window.scrollTo(0, position);
                     if (position < maxPosition) {
@@ -174,11 +171,7 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
         }
         
     }, 30);
-    
-
-
-    
-    
+  
 });
 
 //PARTIE 2 : I know what I want to do
@@ -371,7 +364,6 @@ window.addEventListener('load', function () {
     }
 
     const effect = new Effect(ctx, canvas.width, canvas.height);
-    // effect.wrapText('For the first time');
     document.fonts.load('160px dazzle-unicase').then(() => {
         effect.wrapText('For the first time');
     });
@@ -390,8 +382,6 @@ window.addEventListener('load', function () {
         particlesEnabled = state;
     }
 });
-
-
 
 //FATHER PARTIE
 function dropWord() {
@@ -419,7 +409,7 @@ function dropWord() {
 
       document.body.style.backgroundColor = "rgb(255, 50, 1)";
 
-      // Fonction pour afficher chaque mot un par un
+
         function showWords() {
             const mots = document.querySelectorAll('.mot');
             let delay = 0; // Délai initial pour le premier mot
@@ -429,12 +419,12 @@ function dropWord() {
                     mot.classList.add('visible'); // Ajoute la classe 'visible' pour afficher le mot
                 }, delay);
 
-                delay += 400; // Ajoute un délai de 1 seconde entre chaque mot
-            });
-        }
-
-// Appeler la fonction pour afficher les mots après 1 seconde
-setTimeout(showWords, 500);
+                delay += 400; 
+            }
+        )}
+    
+    // Appeler la fonction pour afficher les mots après 1 seconde
+    setTimeout(showWords, 500);
       // Réinitialise le mot want me
       falling.style.opacity = 0;
       falling.style.top = "0px";
@@ -450,7 +440,7 @@ setTimeout(showWords, 500);
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = window.innerHeight * 3;   // 400vh
+const blockPosition = window.innerHeight * 3 -20;   // 400vh
 const finalPosition = window.innerHeight * 4;   // 500vh
 
 let lastWheelTime = performance.now();
@@ -483,9 +473,11 @@ window.addEventListener('wheel', (e) => {
 if (y >= blockPosition && y < finalPosition && scrollLocked) {
     e.preventDefault();
     window.scrollTo({ top: blockPosition });
+
     //LES PARTICULES FONT TOUT BEUGER
     setParticlesEnabled(false); // pause les particules
     setTimeout(() => setParticlesEnabled(true), 10000); // les relance après 4s
+
         if (speed >= 10500) {
         // Vitesse suffisante : envole, saut à finalPosition, nouveau blocage
         scrollLocked = false;
@@ -517,13 +509,10 @@ if (y >= blockPosition && y < finalPosition && scrollLocked) {
 
             //MESSAGE SCROLL PLUS FORT
             const message2 = document.getElementById('message2');
-
-            // Affiche le message (glisse depuis la droite)
             setTimeout(() => {
                 message2.classList.add('show');
-            }, 2000); // petit délai pour que la transition fonctionne
-
-            // Disparait en glissant vers la droite après 3 secondes
+            }, 2000); 
+            
             setTimeout(() => {
                 message2.classList.remove('show');
                 message2.classList.add('hide');
@@ -539,11 +528,8 @@ if (y >= blockPosition && y < finalPosition && scrollLocked) {
 }, { passive: false }); // PASSIVE FALSE pour bloquer le scroll ET la molette ET le pavé tactile
 
 // Dernière Partie : Grossissement de texte
-
 document.getElementById("monElement").innerHTML = "carpe diem !";
-
 changer.style.transition = "font-size 0.3s ease-in-out";
-
 changer.onmousemove = function()
 {
     this.style.fontSize = '5rem';
@@ -551,10 +537,7 @@ changer.onmousemove = function()
     this.style.justifyContent = 'center';
     this.style.alignItems = 'center';
 }
-
 changer.onmouseleave = function()
 {
     this.style.fontSize = '1rem';
 }
-
-console.log(fonction)
