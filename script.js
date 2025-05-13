@@ -430,7 +430,7 @@ function dropWord() {
       falling.style.top = "0px";
       setTimeout(() => {
         window.scrollTo({
-          top: 3000,
+          top: 3500,
           behavior: 'smooth' 
         });
       }, 3500);
@@ -440,7 +440,7 @@ function dropWord() {
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = window.innerHeight * 3+50;   // 400vh
+const blockPosition = window.innerHeight * 3.5+50;   // 400vh
 const finalPosition = window.innerHeight * 4+50;   // 500vh
 
 let lastWheelTime = performance.now();
