@@ -440,8 +440,8 @@ function dropWord() {
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = window.innerHeight * 3-20;   // 400vh
-const finalPosition = window.innerHeight * 4-20;   // 500vh
+const blockPosition = window.innerHeight * 3-50;   // 400vh
+const finalPosition = window.innerHeight * 4-50;   // 500vh
 
 let lastWheelTime = performance.now();
 let scrollLocked = true; // pour bloquer à blockPosition
