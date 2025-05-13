@@ -146,7 +146,7 @@ document.querySelector(".bigBoss").addEventListener("mouseenter", (e) => {
         if (radius >= 10000) {
             clearInterval(animateGradient);
             let position = 0; // Position initiale
-            let maxPosition = 450; // Position maximale
+            let maxPosition = window.innerHeight; // Position maximale
             
             function scrollToPosition() {
                 window.scrollTo(0, position);
@@ -317,11 +317,11 @@ window.addEventListener('load', function () {
             this.context.textBaseline = 'middle';
             this.context.lineWidth = 3;
             this.context.font = this.fontSize + 'px dazzle-unicase';
-
+        
             const words = text.split(' ');
             const lines = [];
             let line = '';
-
+        
             for (let word of words) {
                 let testLine = line + (line ? ' ' : '') + word;
                 if (this.context.measureText(testLine).width > this.maxTextWidth) {
@@ -332,18 +332,21 @@ window.addEventListener('load', function () {
                 }
             }
             lines.push(line);
-
+        
             const textHeight = this.lineHeight * lines.length;
             this.textY = this.canvasHeight / 2 - textHeight / 2;
+            this.textX = this.canvasWidth / 2;
 
             lines.forEach((el, index) => {
-                const y = this.textY + (index * this.lineHeight);
+                const y = this.textY + index * this.lineHeight + this.lineHeight / 2;
                 this.context.fillText(el, this.textX, y);
                 this.context.strokeText(el, this.textX, y);
             });
 
+        
             this.convertToParticles();
         }
+        
 
         convertToParticles() {
             const pixels = this.context.getImageData(0, 0, this.canvasWidth, this.canvasHeight).data;
@@ -397,8 +400,10 @@ window.addEventListener('load', function () {
 function dropWord() {
     const falling = document.getElementById("falling-word");
     const target = document.getElementById("target-word");
+
     setParticlesEnabled(false); // pause les particules
     setTimeout(() => setParticlesEnabled(true), 10000); // les relance après 4s
+    
     falling.style.opacity = 1;
   
     falling.animate(
@@ -448,8 +453,8 @@ setTimeout(showWords, 500);
 //LETRES QUI BOUGENT I M GOING TO DO IT
 const elements = document.querySelectorAll('.bouge');
 
-const blockPosition = 2000;
-const finalPosition = 3000;
+const blockPosition = window.innerHeight * 3;   // 400vh
+const finalPosition = window.innerHeight * 4;   // 500vh
 
 let lastWheelTime = performance.now();
 let scrollLocked = true; // pour bloquer à blockPosition
@@ -503,6 +508,7 @@ if (y >= blockPosition && y < finalPosition && scrollLocked) {
         // Scroll lent : envol partiel puis retombe
             elements.forEach(el => {
                 el.classList.remove('envole', 'retombe', 'envole-leger');
+                // J'avais un problème avec le recalcule l'IA m'a aider a trouver la ligne de code qui fallait
                 void el.offsetWidth; // force le reflow
                 el.classList.add('envole-leger');
             

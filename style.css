@@ -79,7 +79,7 @@ body {
     font-family: "dazzle-unicase", sans-serif;
     font-weight: 700;
     font-style: normal;
-    font-size: 11rem;   
+    font-size: 10rem;   
 }
 
 .oneone {
@@ -124,16 +124,26 @@ body {
 
 .anim2 {
     height: 100vh;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .anim3 {
     height: 100vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 }
 
+canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .anim4 {
     height: 100vh;
     display: flex;
@@ -152,10 +162,10 @@ body {
 }
 
 .anim6 {
-    height: 40vh;
+    /* height: 10vh; */
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .anim7 {
@@ -164,7 +174,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
+    gap: 2rem;
 }
 
 p{
