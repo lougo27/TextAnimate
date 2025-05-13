@@ -130,7 +130,7 @@ body {
 }
 
 .anim2 {
-    height: 110vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -138,7 +138,7 @@ body {
 }
 
 .anim3 {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,14 +169,14 @@ canvas {
 }
 
 .anim6 {
-    /* height: 10vh; */
+    height: 30vh;
     display: flex;
     justify-content: center;
     gap: 1rem;
 }
 
 .anim7 {
-    height: 150vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
